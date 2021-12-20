@@ -1,0 +1,49 @@
+version: "3.7"
+services: 
+  
+  gtw-ngx:
+    build:
+      context: .
+      args:
+        conf: cert
+    restart: unless-stopped
+    volumes:
+      - web-root:/usr/share/nginx/html
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
+    ports:
+      - "80:80"
+      - "443:443"
+    networks: 
+      - gtw-net
+    command: ./wait-for -t 0 site:80  -- nginx -g 'daemon off;'
+  
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/usr/share/nginx/html
+    depends_on:
+      - gtw-ngx
+    networks: 
+      - gtw-net
+    command: > 
+      certonly --webroot --webroot-path=/usr/share/nginx/html --email ti@contaure.com.br --agree-tos --no-eff-email --force-renewal
+      --cert-name dominio.com.br
+
+networks:
+  gtw-net:
+    driver: bridge
+
+volumes: 
+  web-root:
+  certbot-etc:
+  certbot-var:
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/dhparam
+      o: bind
