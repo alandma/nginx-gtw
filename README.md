@@ -20,7 +20,9 @@ Na linha 34 (**command**) no serviço _certbot_ deve ser adicionado os dominios 
 
 ## **Como Executar**
 
->`docker-compose up --abort-on-container-exit`
+```bash
+docker-compose up --abort-on-container-exit
+```
 
 Dá primeira vez que executar será criada a rede "_nginx-gtw_gtw-net_", ela deverá ser adicionada como uma "_external_" rede nos containers de portais que serão certificados.
 
@@ -36,7 +38,9 @@ No **command** do serviço _gtw-ngx_ ele "aguarda" os conteiners dos portais sub
 Se tudo ocorreu bem, seu serviço _gtw-ngx_ devem estar `Up` e o contêiner `certbot` terá finalizado com uma mensagem de status 0.
 
 Agora ainda no compose altere o argumento (args) para **prd** e rode ele novamente, indicando somente o gtw-ngx:
-> `docker-compose up -d --build --no-deps --force-recreate gtw-ngx`
+```bash
+docker-compose up -d --build --no-deps --force-recreate gtw-ngx
+```
 
 ## **Renovação de certificado auto**
 
