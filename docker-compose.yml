@@ -30,7 +30,7 @@ services:
     networks: 
       - gtw-net
     command: > 
-      certonly --webroot --webroot-path=/usr/share/nginx/html --email ti@contaure.com.br --agree-tos --no-eff-email --force-renewal
+      certonly --webroot --webroot-path=/usr/share/nginx/html --email devops@dominio.com.br --agree-tos --no-eff-email --force-renewal
       --cert-name dominio.com.br
 
 networks:
